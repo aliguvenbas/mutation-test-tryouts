@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'info.solidsoft.pitest' version '1.15.0' // PIT plugin for mutation testing
+}
+
+group = 'com.ag'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    
+    // Add PITest JUnit 5 support
+    testImplementation 'org.pitest:pitest-junit5-plugin:1.2.1'
+}
+
+pitest {
+    targetClasses = ['com.ag.*']  //by default "${project.group}.*"
+    threads = 4
+    timestampedReports = false
+    junit5PluginVersion = '1.2.1'
+    outputFormats = ['HTML']
+    mutators = ['DEFAULTS']
+    targetTests = ['com.ag.*']
+}
+
+test {
+    useJUnitPlatform()
+}
